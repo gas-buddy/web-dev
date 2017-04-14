@@ -1,8 +1,9 @@
 {
   "name": "@gasbuddy/web-dev",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha",
   "description": "GasBuddy Platform for Web Projects - Dev time dependencies",
   "main": "build/index.js",
+  "module": "src/index.js",
   "scripts": {
     "test": "tap --node-arg=-r --node-arg=babel-register tests/test_*.js",
     "cover": "cross-env BABEL_ENV=test nyc tap tests/test_*.js && nyc check-coverage",
@@ -34,13 +35,17 @@
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-hot-loader": "^3.0.0-beta.6",
+    "redux-logger": "^3.0.1",
+    "style-loader": "^0.15.0",
     "webpack": "^2.3.3",
     "webpack-dev-middleware": "^1.10.1",
     "webpack-hot-middleware": "^2.18.0"
   },
   "devDependencies": {
     "babel-cli": "^6.4.5",
-    "babel-preset-gasbuddy": "^2.3.5"
+    "babel-preset-gasbuddy": "^2.3.5",
+    "eslint": "^3.1.0",
+    "eslint-config-gasbuddy": "^2"
   },
   "nyc": {
     "lines": 75,
