@@ -27,7 +27,9 @@ export function webpackMiddleware(opts) {
     publicPath,
     stats: { colors: true },
   });
-  const hotMiddleware = webpackHotMiddleware(compiler);
+  const hotMiddleware = webpackHotMiddleware(compiler, {
+    dynamicPublicPath: true,
+  });
 
   const webpackMiddlewareFn = (req, res, next) => (
     devMiddleware(req, res, () => hotMiddleware(req, res, next))

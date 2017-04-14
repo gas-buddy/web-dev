@@ -17,6 +17,7 @@ export function webpackConfig(env) {
     },
     output: {
       filename: '[name].bundle.js',
+      publicPath: '/',
       path: path.resolve('./build-static'),
     },
   };
