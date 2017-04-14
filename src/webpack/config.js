@@ -4,7 +4,7 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 const CSS_BUNDLE = 'bundle.css';
 
-export default function webpackConfig(env) {
+export function webpackConfig(env) {
   // I hate this config. Thx webpack.
   const isProd = env.production && env.production !== 'false';
 

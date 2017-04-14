@@ -2,9 +2,9 @@ import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
-export const WebpackMiddlewareCloseHandle = Symbol('Webpack dev middleware close function');
+const WebpackMiddlewareCloseHandle = Symbol('Webpack dev middleware close function');
 
-export default function webpackMiddlewareThunk(opts) {
+export function webpackMiddleware(opts) {
   const {
     config,
     path: publicPath = '/',
@@ -34,4 +34,18 @@ export default function webpackMiddlewareThunk(opts) {
   );
   webpackMiddlewareFn[WebpackMiddlewareCloseHandle] = () => devMiddleware.close();
   return webpackMiddlewareFn;
+}
+
+export function shutdownWebpackWatcher(app) {
+  // Webpack dev middleware watches the filesystem and as such seems to need to
+  // be explicitly shut down.
+  // eslint-disable-next-line no-underscore-dangle
+  const wpmw = app._router.stack.find(m =>
+    m.handle && Object.hasOwnProperty.call(m.handle, WebpackMiddlewareCloseHandle));
+  if (wpmw) {
+    const fn = wpmw.handle[WebpackMiddlewareCloseHandle];
+    if (fn && typeof fn === 'function') {
+      fn();
+    }
+  }
 }
