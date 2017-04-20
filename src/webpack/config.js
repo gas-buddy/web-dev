@@ -1,6 +1,7 @@
 import path from 'path';
 import webpack from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import Visualizer from 'webpack-visualizer-plugin';
 
 const CSS_BUNDLE = 'bundle.css';
 
@@ -32,6 +33,10 @@ export function webpackConfig(env) {
       filename: 'vendor.bundle.js',
     }),
   ];
+
+  if (process.env.WEBPACK_VISUALIZE) {
+    plugins.unshift(new Visualizer());
+  }
 
   const loaders = [
     {
