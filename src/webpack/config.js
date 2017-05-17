@@ -59,6 +59,23 @@ export function webpackConfig(env) {
     },
     {
       test: /\.css$/,
+      exclude: /node_modules/,
+      use: [
+        'style-loader',
+        {
+          loader: 'css-loader',
+          options: {
+            localIdentName: '[name]__[local]___[hash:base64:5]',
+            sourceMap: true,
+            modules: true,
+            importLoaders: 1,
+          },
+        },
+        'postcss-loader',
+      ],
+    },
+    {
+      test: /\.css$/,
       use: [
         'style-loader',
         {
