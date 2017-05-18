@@ -67,11 +67,22 @@ export function webpackConfig(env) {
           options: {
             localIdentName: '[name]__[local]___[hash:base64:5]',
             sourceMap: true,
-            modules: true,
             importLoaders: 1,
           },
         },
-        'postcss-loader',
+        {
+          loader: 'postcss-loader',
+          options: {
+            plugins: () => [
+              // eslint-disable-next-line global-require
+              require('postcss-cssnext')({
+                // If you don't set this, you get the GB preset default,
+                // which is fine in most cases
+                browsers: process.env.BROWSER_SUPPORT,
+              }),
+            ],
+          },
+        },
       ],
     },
     {
