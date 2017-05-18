@@ -59,7 +59,7 @@ export function webpackConfig(env) {
     },
     {
       test: /\.css$/,
-      exclude: /node_modules/,
+      include: /node_modules/,
       use: [
         'style-loader',
         {
@@ -76,6 +76,7 @@ export function webpackConfig(env) {
     },
     {
       test: /\.css$/,
+      exclude: /node_modules/,
       use: [
         'style-loader',
         {
