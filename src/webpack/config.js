@@ -59,6 +59,35 @@ export function webpackConfig(env) {
     },
     {
       test: /\.css$/,
+      include: /node_modules/,
+      use: [
+        'style-loader',
+        {
+          loader: 'css-loader',
+          options: {
+            localIdentName: '[name]__[local]___[hash:base64:5]',
+            sourceMap: true,
+            importLoaders: 1,
+          },
+        },
+        {
+          loader: 'postcss-loader',
+          options: {
+            plugins: () => [
+              // eslint-disable-next-line global-require
+              require('postcss-cssnext')({
+                // If you don't set this, you get the GB preset default,
+                // which is fine in most cases
+                browsers: process.env.BROWSER_SUPPORT,
+              }),
+            ],
+          },
+        },
+      ],
+    },
+    {
+      test: /\.css$/,
+      exclude: /node_modules/,
       use: [
         'style-loader',
         {
@@ -107,14 +136,21 @@ export function webpackConfig(env) {
 
   if (isProd) {
     // fix loaders for prod
-    const [, cssLoader] = loaders;
+    const [, thirdPartyCssLoader, cssLoader] = loaders;
+    const { use: [thirdPartyStyle, ...thirdPartyRest] } = thirdPartyCssLoader;
     const { use: [style, ...rest] } = cssLoader;
+
+    const thirdPartyExtract = ExtractTextPlugin.extract({
+      fallback: thirdPartyStyle,
+      use: thirdPartyRest,
+    });
 
     const extract = ExtractTextPlugin.extract({
       fallback: style,
       use: rest,
     });
 
+    thirdPartyCssLoader.use = thirdPartyExtract;
     cssLoader.use = extract;
 
     // fix plugins for prod
