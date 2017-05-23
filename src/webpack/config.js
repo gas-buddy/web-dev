@@ -136,14 +136,21 @@ export function webpackConfig(env) {
 
   if (isProd) {
     // fix loaders for prod
-    const [, cssLoader] = loaders;
+    const [, thirdPartyCssLoader, cssLoader] = loaders;
+    const { use: [thirdPartyStyle, ...thirdPartyRest] } = thirdPartyCssLoader;
     const { use: [style, ...rest] } = cssLoader;
+
+    const thirdPartyExtract = ExtractTextPlugin.extract({
+      fallback: thirdPartyStyle,
+      use: thirdPartyRest,
+    });
 
     const extract = ExtractTextPlugin.extract({
       fallback: style,
       use: rest,
     });
 
+    thirdPartyCssLoader.use = thirdPartyExtract;
     cssLoader.use = extract;
 
     // fix plugins for prod
