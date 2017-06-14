@@ -75,6 +75,8 @@ export function webpackConfig(env) {
           options: {
             plugins: () => [
               // eslint-disable-next-line global-require
+              require('postcss-import'),
+              // eslint-disable-next-line global-require
               require('postcss-cssnext')({
                 // If you don't set this, you get the GB preset default,
                 // which is fine in most cases
