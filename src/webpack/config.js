@@ -51,6 +51,7 @@ export function webpackConfig(env) {
               // I don't love that this is hardcoded as opposed to reading from .babelrc
               ['gasbuddy', {
                 webpack: true,
+                browsers: process.env.BROWSER_SUPPORT,
               }],
             ],
           },
