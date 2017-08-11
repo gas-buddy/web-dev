@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/gas-buddy/web-dev#readme",
   "dependencies": {
+    "autoprefixer": "^7.1.2",
     "babel-loader": "^6.4.1",
     "css-loader": "^0.28.0",
     "extract-text-webpack-plugin": "^2.1.0",

@@ -83,6 +83,10 @@ export function webpackConfig(env) {
                 // which is fine in most cases
                 browsers: process.env.BROWSER_SUPPORT,
               }),
+              // eslint-disable-next-line global-require
+              require('autoprefixer')({
+                browsers: process.env.BROWSER_SUPPORT,
+              }),
             ],
           },
         },
