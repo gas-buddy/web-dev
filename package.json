@@ -30,6 +30,7 @@
   "homepage": "https://github.com/gas-buddy/web-dev#readme",
   "dependencies": {
     "babel-loader": "^6.4.1",
+    "babel-polyfill": "^6.26.0",
     "css-loader": "^0.28.0",
     "extract-text-webpack-plugin": "^2.1.0",
     "postcss-cssnext": "^2.10.0",
@@ -47,7 +48,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.4.5",
-    "babel-preset-gasbuddy": "^2.3.5",
+    "babel-preset-gasbuddy": "^2.6.0",
     "eslint": "^3.1.0",
     "eslint-config-gasbuddy": "^2"
   },

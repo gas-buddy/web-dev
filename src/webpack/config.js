@@ -4,6 +4,7 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import Visualizer from 'webpack-visualizer-plugin';
 
 const CSS_BUNDLE = 'bundle.css';
+const POLYFILL_FILE = 'polyfill.js';
 
 export function webpackConfig(env) {
   // I hate this config. Thx webpack.
@@ -14,7 +15,7 @@ export function webpackConfig(env) {
     devtool: '#inline-source-map',
     entry: {
       client: path.resolve('./src/client'),
-      vendor: ['react', 'react-dom', 'react-router', 'react-router-dom'],
+      vendor: [path.resolve(__dirname, POLYFILL_FILE), 'react', 'react-dom', 'react-router', 'react-router-dom'],
     },
     output: {
       filename: '[name].bundle.js',
