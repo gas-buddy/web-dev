@@ -12,6 +12,11 @@ export function webpackConfig(env) {
 
   // These paths are relative to CWD, which is expected to be package root
   const config = {
+    node: {
+      fs: 'empty',
+      net: 'empty',
+      tls: 'empty',
+    },
     devtool: '#inline-source-map',
     entry: {
       client: path.resolve('./src/client'),
