@@ -4,7 +4,6 @@ import ManifestPlugin from 'webpack-manifest-plugin';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import Visualizer from 'webpack-visualizer-plugin';
 
-const CSS_BUNDLE = '[name].[contenthash].css';
 const POLYFILL_FILE = 'polyfill.js';
 
 export function webpackConfig(env) {
@@ -125,7 +124,7 @@ export function webpackConfig(env) {
 
     // fix plugins for prod
     plugins.push(
-      new ExtractTextPlugin(CSS_BUNDLE),
+      new ExtractTextPlugin(isProd ? '[name].[contenthash].css' : '[name].css'),
       new webpack.optimize.UglifyJsPlugin({ sourceMap: true }),
       new webpack.LoaderOptionsPlugin({ minimize: true }),
     );
