@@ -123,7 +123,7 @@ export function webpackConfig(env) {
 
     // fix plugins for prod
     plugins.push(
-      new ExtractTextPlugin(isProd ? '[name].[contenthash].css' : '[name].css'),
+      new ExtractTextPlugin(isProd ? '[name].[contenthash].css' : '[name].bundle.css'),
       new webpack.optimize.UglifyJsPlugin({ sourceMap: true }),
       new webpack.LoaderOptionsPlugin({ minimize: true }),
     );
