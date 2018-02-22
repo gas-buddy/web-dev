@@ -31,7 +31,6 @@ export function webpackConfig(env) {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks: Infinity,
-      filename: 'vendor.bundle.js',
     }),
     new ManifestPlugin(),
   ];
