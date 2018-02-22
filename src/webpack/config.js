@@ -1,10 +1,10 @@
 import path from 'path';
 import webpack from 'webpack';
+import ManifestPlugin from 'webpack-manifest-plugin';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import Visualizer from 'webpack-visualizer-plugin';
-import getLocalIdent from 'css-loader/lib/getLocalIdent';
 
-const CSS_BUNDLE = 'bundle.css';
+const CSS_BUNDLE = '[name].[contenthash].css';
 const POLYFILL_FILE = 'polyfill.js';
 
 export function webpackConfig(env) {
@@ -19,7 +19,7 @@ export function webpackConfig(env) {
       vendor: [path.resolve(__dirname, POLYFILL_FILE), 'react', 'react-dom', 'react-router', 'react-router-dom'],
     },
     output: {
-      filename: '[name].bundle.js',
+      filename: isProd ? '[name].[chunkhash].js' : '[name].bundle.js',
       publicPath: '/',
       path: path.resolve('./build-static'),
     },
@@ -34,6 +34,7 @@ export function webpackConfig(env) {
       minChunks: Infinity,
       filename: 'vendor.bundle.js',
     }),
+    new ManifestPlugin(),
   ];
 
   if (process.env.WEBPACK_VISUALIZE) {
@@ -68,19 +69,6 @@ export function webpackConfig(env) {
           loader: 'css-loader',
           options: {
             localIdentName: '[name]__[local]___[hash:base64:5]',
-            getLocalIdent(loaderContext, localIdentName, localName, options) {
-              const { resourcePath } = loaderContext;
-              const moduleRegEx = /\/node_modules\/(@[\w-]+\/)?([\w-]+)/g;
-              // If CSS is being loaded from the node_modules directory, we attempt to set the
-              // context to the root of that module. This ensures that class name hashes remain
-              // consistent.
-              if (moduleRegEx.test(resourcePath)) {
-                const modulePaths = resourcePath.match(moduleRegEx).join('');
-                const basePath = resourcePath.split(modulePaths)[0] + modulePaths;
-                options.context = basePath;
-              }
-              return getLocalIdent(loaderContext, localIdentName, localName, options);
-            },
             sourceMap: true,
             modules: true,
             importLoaders: 1,
