@@ -21,7 +21,7 @@ export function webpackConfig(env) {
     output: {
       filename: isProd ? '[name].[chunkhash].js' : '[name].bundle.js',
       publicPath: '/',
-      path: path.resolve('./build-static'),
+      path: path.resolve('./build-static/s'),
     },
   };
 
