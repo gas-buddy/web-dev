@@ -3,6 +3,7 @@ import webpack from 'webpack';
 import ManifestPlugin from 'webpack-manifest-plugin';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import Visualizer from 'webpack-visualizer-plugin';
+import { generateScopedName } from './styleid';
 
 const POLYFILL_FILE = 'polyfill.js';
 
@@ -39,6 +40,13 @@ export function webpackConfig(env) {
     plugins.unshift(new Visualizer());
   }
 
+  const cssLoaderOpts = {
+    localIdentName: '[name]__[local]___[hash:base64:5]',
+    sourceMap: true,
+    modules: true,
+    importLoaders: 1,
+  };
+
   const loaders = [
     {
       test: /\.js$/,
@@ -65,12 +73,7 @@ export function webpackConfig(env) {
         'style-loader',
         {
           loader: 'css-loader',
-          options: {
-            localIdentName: '[name]__[local]___[hash:base64:5]',
-            sourceMap: true,
-            modules: true,
-            importLoaders: 1,
-          },
+          options: cssLoaderOpts,
         },
         {
           loader: 'postcss-loader',
@@ -110,6 +113,11 @@ export function webpackConfig(env) {
   }
 
   if (isProd) {
+    // Short names
+    delete cssLoaderOpts.localIdentName;
+    cssLoaderOpts.getLocalIdent = (context, localIdentName, localName) =>
+      generateScopedName(localName, context.resourcePath);
+
     // fix loaders for prod
     const [, cssLoader] = loaders;
     const { use: [style, ...rest] } = cssLoader;
