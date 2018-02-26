@@ -7,7 +7,6 @@ const WebpackMiddlewareCloseHandle = Symbol('Webpack dev middleware close functi
 export function webpackMiddleware(opts) {
   const {
     config,
-    path: publicPath = '/',
     env = process.env.NODE_ENV,
   } = opts;
 
@@ -24,7 +23,7 @@ export function webpackMiddleware(opts) {
   }
 
   const devMiddleware = webpackDevMiddleware(compiler, {
-    publicPath,
+    publicPath: wpconfig.output.publicPath,
     stats: { colors: true },
   });
   const hotMiddleware = webpackHotMiddleware(compiler, {
