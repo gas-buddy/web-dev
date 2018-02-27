@@ -13,7 +13,20 @@ export function webpackConfig(env) {
 
   // These paths are relative to CWD, which is expected to be package root
   const config = {
+    mode: isProd ? 'production' : 'development',
     devtool: '#inline-source-map',
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          vendor: {
+            chunks: 'initial',
+            test: 'vendor',
+            name: 'vendor',
+            enforce: true,
+          },
+        },
+      },
+    },
     entry: {
       client: path.resolve('./src/client'),
       vendor: [path.resolve(__dirname, POLYFILL_FILE), 'react', 'react-dom', 'react-router', 'react-router-dom'],
@@ -29,10 +42,6 @@ export function webpackConfig(env) {
     new webpack.EnvironmentPlugin({
       NODE_ENV: isProd ? 'production' : 'development',
     }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      minChunks: Infinity,
-    }),
     new ManifestPlugin(),
   ];
 
@@ -47,10 +56,11 @@ export function webpackConfig(env) {
     importLoaders: 1,
   };
 
-  const loaders = [
+  const rules = [
     {
       test: /\.js$/,
-      exclude: /node_modules/,
+      // This is necessary to get the babel-polyfill to be minimized
+      exclude: /node_modules\/(?!(@gasbuddy\/web-dev)\/)/,
       use: [
         {
           loader: 'babel-loader',
@@ -113,13 +123,14 @@ export function webpackConfig(env) {
   }
 
   if (isProd) {
+    config.optimization.minimize = true;
     // Short names
     delete cssLoaderOpts.localIdentName;
     cssLoaderOpts.getLocalIdent = (context, localIdentName, localName) =>
       generateScopedName(localName, context.resourcePath);
 
     // fix loaders for prod
-    const [, cssLoader] = loaders;
+    const [, cssLoader] = rules;
     const { use: [style, ...rest] } = cssLoader;
 
     const extract = ExtractTextPlugin.extract({
@@ -132,8 +143,6 @@ export function webpackConfig(env) {
     // fix plugins for prod
     plugins.push(
       new ExtractTextPlugin(isProd ? '[name].[contenthash].css' : '[name].bundle.css'),
-      new webpack.optimize.UglifyJsPlugin({ sourceMap: true }),
-      new webpack.LoaderOptionsPlugin({ minimize: true }),
     );
 
     // other opts
@@ -148,7 +157,7 @@ export function webpackConfig(env) {
   }
 
   return Object.assign(config, {
-    module: { loaders },
+    module: { rules },
     plugins,
   });
 }
