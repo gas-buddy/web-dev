@@ -1,6 +1,6 @@
 /* global window */
 import { React, entryPoint, RouterThunk, combineReducers } from '@gasbuddy/react';
-import { hot } from 'react-hot-loader';
+import { hot } from '../hot';
 
 // Global styles for admin
 import './test.css';
