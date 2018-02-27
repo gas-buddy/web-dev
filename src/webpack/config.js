@@ -17,12 +17,19 @@ export function webpackConfig(env) {
     devtool: '#inline-source-map',
     optimization: {
       splitChunks: {
-        chunks: 'all',
+        cacheGroups: {
+          vendor: {
+            chunks: 'initial',
+            test: 'vendor',
+            name: 'vendor',
+            enforce: true,
+          },
+        },
       },
     },
     entry: {
       client: path.resolve('./src/client'),
-      shared: [path.resolve(__dirname, POLYFILL_FILE), 'react', 'react-dom', 'react-router', 'react-router-dom'],
+      vendor: [path.resolve(__dirname, POLYFILL_FILE), 'react', 'react-dom', 'react-router', 'react-router-dom'],
     },
     output: {
       filename: isProd ? '[name].[chunkhash].js' : '[name].bundle.js',
@@ -52,7 +59,8 @@ export function webpackConfig(env) {
   const rules = [
     {
       test: /\.js$/,
-      exclude: /node_modules/,
+      // This is necessary to get the babel-polyfill to be minimized
+      exclude: /node_modules\/(?!(@gasbuddy\/web-dev)\/)/,
       use: [
         {
           loader: 'babel-loader',
