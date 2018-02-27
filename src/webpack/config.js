@@ -105,15 +105,8 @@ export function webpackConfig(env) {
   ];
 
   if (!(isProd)) {
-    const RHL = 'react-hot-loader/';
-
     config.entry.client = [].concat(config.entry.client);
-    if (config.entry.client.indexOf(`${RHL}patch`) === -1) {
-      config.entry.client.unshift(
-        `${RHL}patch`,
-        'webpack-hot-middleware/client?reload=true',
-      );
-    }
+    config.entry.client.unshift('webpack-hot-middleware/client?reload=true');
 
     plugins.push(
       new webpack.HotModuleReplacementPlugin(),
