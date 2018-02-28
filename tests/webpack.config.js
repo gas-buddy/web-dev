@@ -10,10 +10,5 @@ module.exports = (env) => {
   const config = webpackConfig(env);
 
   config.entry.client = path.resolve(__dirname, './entrypoint.js');
-  config.module.rules.forEach((rule) => {
-    if (rule.use && rule.use.length && rule.use[0].loader === 'babel-loader') {
-      rule.exclude = /node_modules\/(?!(@gasbuddy\/react-components)\/).*/;
-    }
-  });
   return config;
 };

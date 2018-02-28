@@ -1,5 +1,7 @@
 import path from 'path';
 import webpack from 'webpack';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import ignore from 'babel-preset-gasbuddy/ignore';
 import ManifestPlugin from 'webpack-manifest-plugin';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import Visualizer from 'webpack-visualizer-plugin';
@@ -60,7 +62,7 @@ export function webpackConfig(env) {
     {
       test: /\.js$/,
       // This is necessary to get the babel-polyfill to be minimized
-      exclude: /node_modules\/(?!(@gasbuddy\/web-dev)\/)/,
+      exclude: ignore,
       use: [
         {
           loader: 'babel-loader',
