@@ -5,7 +5,6 @@ import ignore from 'babel-preset-gasbuddy/ignore';
 import ManifestPlugin from 'webpack-manifest-plugin';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import Visualizer from 'webpack-visualizer-plugin';
-import { generateScopedName } from './styleid';
 
 const POLYFILL_FILE = 'polyfill.js';
 
@@ -119,11 +118,6 @@ export function webpackConfig(env) {
 
   if (isProd) {
     config.optimization.minimize = true;
-    // Short names
-    delete cssLoaderOpts.localIdentName;
-    cssLoaderOpts.getLocalIdent = (context, localIdentName, localName) =>
-      generateScopedName(localName, context.resourcePath);
-
     // fix loaders for prod
     const [, cssLoader] = rules;
     const { use: [style, ...rest] } = cssLoader;
