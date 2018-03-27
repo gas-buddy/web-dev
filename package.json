@@ -1,6 +1,6 @@
 {
   "name": "@gasbuddy/web-dev",
-  "version": "7.3.0",
+  "version": "7.4.0",
   "description": "GasBuddy Platform for Web Projects - Dev time dependencies",
   "main": "build/index.js",
   "module": "src/index.js",
@@ -42,9 +42,9 @@
     "react-hot-loader": "^4.0.0",
     "redux-logger": "^3.0.6",
     "style-loader": "^0.20.3",
-    "webpack": "^4.2.0",
+    "webpack": "^4.3.0",
     "webpack-cli": "^2.0.13",
-    "webpack-dev-middleware": "^3.0.1",
+    "webpack-dev-middleware": "^3.1.0",
     "webpack-hot-middleware": "^2.21.2",
     "webpack-manifest-plugin": "^2.0.0-rc.2",
     "webpack-visualizer-plugin": "^0.1.11"
