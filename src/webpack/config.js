@@ -6,8 +6,6 @@ import ManifestPlugin from 'webpack-manifest-plugin';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import Visualizer from 'webpack-visualizer-plugin';
 
-const POLYFILL_FILE = 'polyfill.js';
-
 export function webpackConfig(env) {
   // I hate this config. Thx webpack.
   const isProd = env.production && env.production !== 'false';
@@ -30,7 +28,7 @@ export function webpackConfig(env) {
     },
     entry: {
       client: path.resolve('./src/client'),
-      vendor: [path.resolve(__dirname, POLYFILL_FILE), 'react', 'react-dom', 'react-router', 'react-router-dom'],
+      vendor: ['react', 'react-dom', 'react-router', 'react-router-dom'],
     },
     output: {
       filename: isProd ? '[name].[chunkhash].js' : '[name].bundle.js',
