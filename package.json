@@ -1,6 +1,6 @@
 {
   "name": "@gasbuddy/web-dev",
-  "version": "7.5.0",
+  "version": "7.5.1",
   "description": "GasBuddy Platform for Web Projects - Dev time dependencies",
   "main": "build/index.js",
   "module": "src/index.js",
