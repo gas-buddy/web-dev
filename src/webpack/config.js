@@ -129,7 +129,10 @@ export function webpackConfig(env) {
 
     // fix plugins for prod
     plugins.push(
-      new ExtractTextPlugin(isProd ? '[name].[chunkhash].css' : '[name].bundle.css'),
+      new ExtractTextPlugin({
+        filename: isProd ? '[name].[chunkhash].css' : '[name].bundle.css',
+        allChunks: true,
+      }),
     );
 
     // other opts
