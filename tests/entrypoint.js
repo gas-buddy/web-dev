@@ -1,5 +1,4 @@
 /* global window */
-import 'babel-polyfill';
 import { React, entryPoint, RouterThunk, combineReducers } from '@gasbuddy/react';
 import { hot } from '../hot';
 

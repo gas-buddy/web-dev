@@ -1,11 +1,11 @@
 {
   "name": "@gasbuddy/web-dev",
-  "version": "8.0.0",
+  "version": "9.0.0",
   "description": "GasBuddy Platform for Web Projects - Dev time dependencies",
   "main": "build/index.js",
   "module": "src/index.js",
   "scripts": {
-    "test": "tap --node-arg=-r --node-arg=babel-register tests/test_*.js",
+    "test": "tap --node-arg=-r --node-arg=@babel/register tests/test_*.js",
     "cover": "cross-env BABEL_ENV=test nyc tap tests/test_*.js && nyc check-coverage",
     "ci-test": "cross-env NODE_ENV=test nyc tap -Rtap tests/test_*.js | tee .tap_output | tap -Rspec -",
     "ci-cover": "nyc check-coverage",
@@ -29,8 +29,7 @@
   },
   "homepage": "https://github.com/gas-buddy/web-dev#readme",
   "dependencies": {
-    "babel-loader": "^7.1.5",
-    "babel-polyfill": "^6.26.0",
+    "babel-loader": "^8.0.4",
     "css-loader": "^1.0.0",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "incstr": "^1.2.3",
@@ -41,19 +40,20 @@
     "react-dom": "^16.5.2",
     "react-hot-loader": "^4.3.11",
     "redux-logger": "^3.0.6",
-    "style-loader": "^0.23.0",
-    "webpack": "^4.20.2",
-    "webpack-cli": "^3.1.1",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.21.0",
+    "webpack-cli": "^3.1.2",
     "webpack-dev-middleware": "^3.4.0",
-    "webpack-hot-middleware": "^2.24.2",
+    "webpack-hot-middleware": "^2.24.3",
     "webpack-manifest-plugin": "^2.0.4",
     "webpack-visualizer-plugin": "^0.1.11"
   },
   "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/register": "^7.0.0",
     "@gasbuddy/react": "^5.1.0",
-    "babel-cli": "^6.26.0",
-    "babel-preset-gasbuddy": "^3.3.3",
-    "eslint-config-gasbuddy": "^4.1.0",
+    "babel-preset-gasbuddy": "^4.1.0",
+    "eslint-config-gasbuddy": "^5.0.2",
     "tap": "^12.0.1"
   },
   "nyc": {
@@ -65,7 +65,7 @@
       "src"
     ],
     "require": [
-      "babel-register"
+      "@babel/register"
     ],
     "sourceMap": false,
     "instrument": false,

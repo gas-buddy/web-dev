@@ -1,5 +1,5 @@
 const path = require('path');
-const webpackConfig = require('../src').webpackConfig;
+const { webpackConfig } = require('../src');
 
 if (!process.env.BROWSER_SUPPORT) {
   process.env.BROWSER_SUPPORT = 'last 2 Android versions,iOS >= 10';
