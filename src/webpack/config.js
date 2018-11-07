@@ -3,7 +3,7 @@ import webpack from 'webpack';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ignore from 'babel-preset-gasbuddy/ignore';
 import ManifestPlugin from 'webpack-manifest-plugin';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import Visualizer from 'webpack-visualizer-plugin';
 
 export function webpackConfig(env) {
@@ -79,7 +79,7 @@ export function webpackConfig(env) {
     {
       test: /\.css$/,
       use: [
-        'style-loader',
+        isProd ? MiniCssExtractPlugin.loader : 'style-loader',
         {
           loader: 'css-loader',
           options: cssLoaderOpts,
@@ -116,22 +116,11 @@ export function webpackConfig(env) {
 
   if (isProd) {
     config.optimization.minimize = true;
-    // fix loaders for prod
-    const [, cssLoader] = rules;
-    const { use: [style, ...rest] } = cssLoader;
-
-    const extract = ExtractTextPlugin.extract({
-      fallback: style,
-      use: rest,
-    });
-
-    cssLoader.use = extract;
 
     // fix plugins for prod
     plugins.push(
-      new ExtractTextPlugin({
+      new MiniCssExtractPlugin({
         filename: isProd ? '[name].[chunkhash].css' : '[name].bundle.css',
-        allChunks: true,
       }),
     );
 
