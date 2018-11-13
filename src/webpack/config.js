@@ -4,6 +4,8 @@ import webpack from 'webpack';
 import ignore from 'babel-preset-gasbuddy/ignore';
 import ManifestPlugin from 'webpack-manifest-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
+import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import Visualizer from 'webpack-visualizer-plugin';
 
 export function webpackConfig(env) {
@@ -115,7 +117,14 @@ export function webpackConfig(env) {
   }
 
   if (isProd) {
-    config.optimization.minimize = true;
+    config.optimization.minimizer = [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true,
+      }),
+      new OptimizeCSSAssetsPlugin({}),
+    ];
 
     // fix plugins for prod
     plugins.push(
