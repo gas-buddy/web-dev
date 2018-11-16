@@ -125,7 +125,9 @@ export function webpackConfig(env) {
       }),
       new OptimizeCSSAssetsPlugin({
         cssProcessorOptions: {
-          inline: false,
+          map: {
+            inline: false,
+          },
         },
       }),
     ];
