@@ -123,7 +123,11 @@ export function webpackConfig(env) {
         parallel: true,
         sourceMap: true,
       }),
-      new OptimizeCSSAssetsPlugin({}),
+      new OptimizeCSSAssetsPlugin({
+        cssProcessorOptions: {
+          inline: false,
+        },
+      }),
     ];
 
     // fix plugins for prod
