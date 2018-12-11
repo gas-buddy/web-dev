@@ -55,6 +55,7 @@ export function webpackConfig() {
   const rules = [
     {
       test: /\.js$/,
+      exclude: /node_modules/,
       use: [
         {
           loader: 'babel-loader',
