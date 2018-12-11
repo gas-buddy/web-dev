@@ -1,7 +1,6 @@
 import path from 'path';
 import webpack from 'webpack';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import ignore from 'babel-preset-gasbuddy/ignore';
 import ManifestPlugin from 'webpack-manifest-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
@@ -60,8 +59,6 @@ export function webpackConfig(env) {
   const rules = [
     {
       test: /\.js$/,
-      // This is necessary to get the babel-polyfill to be minimized
-      exclude: ignore,
       use: [
         {
           loader: 'babel-loader',
