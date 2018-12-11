@@ -3,7 +3,7 @@ import webpack from 'webpack';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ManifestPlugin from 'webpack-manifest-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import Visualizer from 'webpack-visualizer-plugin';
 
@@ -115,7 +115,7 @@ export function webpackConfig(env) {
 
   if (isProd) {
     config.optimization.minimizer = [
-      new UglifyJsPlugin({
+      new TerserPlugin({
         cache: true,
         parallel: true,
         sourceMap: true,
