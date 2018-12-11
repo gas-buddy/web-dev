@@ -7,9 +7,8 @@ import TerserPlugin from 'terser-webpack-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import Visualizer from 'webpack-visualizer-plugin';
 
-export function webpackConfig(env) {
-  // I hate this config. Thx webpack.
-  const isProd = env.production && env.production !== 'false';
+export function webpackConfig() {
+  const isProd = process.env.NODE_ENV === 'production';
 
   // These paths are relative to CWD, which is expected to be package root
   const config = {
@@ -39,9 +38,6 @@ export function webpackConfig(env) {
   };
 
   const plugins = [
-    new webpack.EnvironmentPlugin({
-      NODE_ENV: isProd ? 'production' : 'development',
-    }),
     new ManifestPlugin(),
   ];
 
@@ -62,16 +58,6 @@ export function webpackConfig(env) {
       use: [
         {
           loader: 'babel-loader',
-          options: {
-            babelrc: false,
-            presets: [
-              // I don't love that this is hardcoded as opposed to reading from .babelrc
-              ['gasbuddy', {
-                webpack: true,
-                browsers: process.env.BROWSER_SUPPORT,
-              }],
-            ],
-          },
         },
       ],
     },
