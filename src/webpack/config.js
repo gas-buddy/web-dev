@@ -7,8 +7,9 @@ import TerserPlugin from 'terser-webpack-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import Visualizer from 'webpack-visualizer-plugin';
 
-export function webpackConfig(options) {
-  const isProd = process.env.NODE_ENV === 'production' || (options && options.production);
+export function webpackConfig(optionsOrNull) {
+  const options = optionsOrNull || {};
+  const isProd = process.env.NODE_ENV === 'production' || options.production;
 
   // These paths are relative to CWD, which is expected to be package root
   const config = {
@@ -30,7 +31,7 @@ export function webpackConfig(options) {
       client: path.resolve('./src/client'),
       vendor: ['react', 'react-dom', 'react-router', 'react-router-dom'],
     },
-    output: {
+    output: options.output || {
       filename: isProd ? '[name].[chunkhash].js' : '[name].bundle.js',
       publicPath: '/s/',
       path: path.resolve('./build-static'),
@@ -123,6 +124,7 @@ export function webpackConfig(options) {
     plugins.push(
       new MiniCssExtractPlugin({
         filename: isProd ? '[name].[chunkhash].css' : '[name].bundle.css',
+        ...options.miniCss,
       }),
     );
 
