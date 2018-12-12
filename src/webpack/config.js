@@ -59,6 +59,9 @@ export function webpackConfig(options) {
       use: [
         {
           loader: 'babel-loader',
+          options: {
+            envName: 'webpack',
+          },
         },
       ],
     },
