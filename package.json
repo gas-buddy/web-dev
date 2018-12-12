@@ -1,6 +1,6 @@
 {
   "name": "@gasbuddy/web-dev",
-  "version": "10.1.1",
+  "version": "10.1.2",
   "description": "GasBuddy Platform for Web Projects - Dev time dependencies",
   "main": "build/index.js",
   "module": "src/index.js",
@@ -51,7 +51,7 @@
     "@babel/cli": "^7.2.0",
     "@babel/register": "^7.0.0",
     "@gasbuddy/react": "^6.1.4",
-    "babel-preset-gasbuddy": "^5.0.0",
+    "babel-preset-gasbuddy": "^5.1.0",
     "eslint-config-gasbuddy": "^5.0.3",
     "tap": "^12.1.0"
   },

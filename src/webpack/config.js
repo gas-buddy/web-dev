@@ -7,8 +7,8 @@ import TerserPlugin from 'terser-webpack-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import Visualizer from 'webpack-visualizer-plugin';
 
-export function webpackConfig() {
-  const isProd = process.env.NODE_ENV === 'production';
+export function webpackConfig(options) {
+  const isProd = process.env.NODE_ENV === 'production' || (options && options.production);
 
   // These paths are relative to CWD, which is expected to be package root
   const config = {
@@ -127,15 +127,15 @@ export function webpackConfig() {
     Object.assign(config, {
       devtool: 'source-map',
       performance: {
-        maxAssetSize: 100 * 1000, // get mad at 100kB
+        maxAssetSize: 200 * 1000, // get mad at 200kB
         maxEntrypointSize: 300 * 1000, // get mad at 300kB
         hints: 'warning',
       },
     });
   }
-
-  return Object.assign(config, {
+  Object.assign(config, {
     module: { rules },
     plugins,
   });
+  return config;
 }
