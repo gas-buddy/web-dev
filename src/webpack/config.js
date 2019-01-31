@@ -36,6 +36,9 @@ export function webpackConfig(optionsOrNull) {
       publicPath: '/s/',
       path: path.resolve('./build-static'),
     },
+    resolve: {
+      extensions: ['.js', '.jsx'],
+    },
   };
 
   const plugins = [
