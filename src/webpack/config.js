@@ -55,7 +55,7 @@ export function webpackConfig(optionsOrNull) {
 
   const rules = [
     {
-      test: /\.js$/,
+      test: /\.jsx?$/,
       exclude: /node_modules/,
       use: [
         {
