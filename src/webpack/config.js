@@ -20,7 +20,7 @@ export function webpackConfig(optionsOrNull) {
         cacheGroups: {
           vendor: {
             chunks: 'initial',
-            test: 'vendor',
+            test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom)[\\/]/,
             name: 'vendor',
             enforce: true,
           },
@@ -29,7 +29,6 @@ export function webpackConfig(optionsOrNull) {
     },
     entry: {
       client: path.resolve('./src/client'),
-      vendor: ['react', 'react-dom', 'react-router', 'react-router-dom'],
     },
     output: options.output || {
       filename: isProd ? '[name].[chunkhash].js' : '[name].bundle.js',
