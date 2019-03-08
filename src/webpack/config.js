@@ -2,6 +2,7 @@ import path from 'path';
 import webpack from 'webpack';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ManifestPlugin from 'webpack-manifest-plugin';
+import LoadablePlugin from '@loadable/webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
@@ -39,6 +40,7 @@ export function webpackConfig(optionsOrNull) {
 
   const plugins = [
     new ManifestPlugin(),
+    new LoadablePlugin({ writeToDisk: true }),
   ];
 
   if (process.env.WEBPACK_VISUALIZE) {
