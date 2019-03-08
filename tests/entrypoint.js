@@ -1,6 +1,5 @@
 /* global window */
 import { React, entryPoint, RouterThunk, combineReducers } from '@gasbuddy/react';
-import { hot } from '../hot';
 
 // Global styles for admin
 import './test.css';
@@ -14,7 +13,7 @@ const appReducer = combineReducers({ conf: s => (s || {}) });
 
 const render = () => entryPoint({
   reducers: appReducer,
-  router: hot(module)(Router),
+  router: Router,
   initialState: window.PreloadedState,
 });
 
