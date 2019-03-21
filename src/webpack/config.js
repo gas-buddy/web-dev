@@ -6,7 +6,7 @@ import LoadablePlugin from '@loadable/webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
-import Visualizer from 'webpack-visualizer-plugin';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
 export function webpackConfig(optionsOrNull) {
   const options = optionsOrNull || {};
@@ -44,7 +44,7 @@ export function webpackConfig(optionsOrNull) {
   ];
 
   if (process.env.WEBPACK_VISUALIZE) {
-    plugins.unshift(new Visualizer());
+    plugins.unshift(new BundleAnalyzerPlugin());
   }
 
   const cssLoaderOpts = {
