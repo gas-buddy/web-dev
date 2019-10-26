@@ -48,9 +48,10 @@ export function webpackConfig(optionsOrNull) {
   }
 
   const cssLoaderOpts = {
-    localIdentName: '[name]__[local]___[hash:base64:5]',
     sourceMap: true,
-    modules: true,
+    modules: {
+      localIdentName: '[name]__[local]___[hash:base64:5]',
+    },
     importLoaders: 1,
   };
 
