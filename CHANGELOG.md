@@ -22,3 +22,7 @@ import { hot } from '@gasbuddy/react';
 ...
   hot(router)
 ```
+
+12.0.0
+------
+* Updated various deps including css-loader which has new module config format
