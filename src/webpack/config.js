@@ -79,18 +79,22 @@ export function webpackConfig(optionsOrNull) {
         {
           loader: 'postcss-loader',
           options: {
-            plugins: {
-              'postcss-import': {},
-              'postcss-preset-env': {
+            ident: 'postcss',
+            plugins: [
+              // eslint-disable-next-line global-require
+              require('postcss-import')(),
+              // eslint-disable-next-line global-require
+              require('postcss-preset-env')({
                 // If you don't set this, you get the GB preset default,
                 // which is fine in most cases
                 browsers: process.env.BROWSER_SUPPORT,
                 // Turn on css polyfills for features supported by at least 2 of the recognized browsers
                 // https://cssdb.org/#stage-3
-                stage: 3,
-              },
-              cssnano: {},
-            },
+                stage: 2,
+              }),
+              // eslint-disable-next-line global-require
+              require('cssnano')(),
+            ],
           },
         },
       ],
