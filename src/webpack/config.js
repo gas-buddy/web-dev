@@ -32,7 +32,7 @@ export function webpackConfig(optionsOrNull) {
       client: path.resolve('./src/client'),
     },
     output: options.output || {
-      filename: isProd ? '[name].[chunkhash].js' : '[name].bundle.js',
+      filename: isProd ? '[name].[contenthash].js' : '[name].bundle.js',
       publicPath: '/s/',
       path: path.resolve('./build-static'),
     },
@@ -125,7 +125,7 @@ export function webpackConfig(optionsOrNull) {
     // fix plugins for prod
     plugins.push(
       new MiniCssExtractPlugin({
-        filename: isProd ? '[name].[chunkhash].css' : '[name].bundle.css',
+        filename: isProd ? '[name].[contenthash].css' : '[name].bundle.css',
         ...options.miniCss,
       }),
     );
