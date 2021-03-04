@@ -1,6 +1,6 @@
 {
   "name": "@gasbuddy/web-dev",
-  "version": "12.1.0",
+  "version": "13.0.0",
   "description": "GasBuddy Platform for Web Projects - Dev time dependencies",
   "main": "build/index.js",
   "module": "src/index.js",
@@ -34,9 +34,9 @@
     "css-loader": "^3.6.0",
     "mini-css-extract-plugin": "^0.9.0",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
-    "postcss-cssnext": "^3.1.0",
     "postcss-import": "^12.0.1",
     "postcss-loader": "^3.0.0",
+    "postcss-preset-env": "^6.7.0",
     "style-loader": "^1.2.1",
     "terser-webpack-plugin": "^3.0.7",
     "webpack": "^4.43.0",
