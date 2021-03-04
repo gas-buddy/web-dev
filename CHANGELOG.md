@@ -1,6 +1,14 @@
 CHANGELOG
 =========
 
+13.0.0
+------
+* Migrated from `postcss-cssnext` to `postcss-preset-env`
+
+12.0.0
+------
+* Updated various deps including css-loader which has new module config format
+
 11.0.0
 ------
 * Removed redux-logger from dependencies. Long live React Context.
@@ -22,7 +30,3 @@ import { hot } from '@gasbuddy/react';
 ...
   hot(router)
 ```
-
-12.0.0
-------
-* Updated various deps including css-loader which has new module config format
