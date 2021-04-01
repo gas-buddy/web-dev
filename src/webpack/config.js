@@ -80,7 +80,7 @@ export function webpackConfig(optionsOrNull) {
           loader: 'postcss-loader',
           options: {
             config: {
-              path: path.resolve(__dirname, '../../'),
+              path: options.postCssConfigPath || path.resolve(__dirname, '../../'),
             },
           },
         },
