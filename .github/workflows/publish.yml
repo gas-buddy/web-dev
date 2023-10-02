@@ -1,0 +1,40 @@
+name: Publish
+
+on:
+  workflow_call:
+     inputs:
+       version_type:
+         required: true
+         type: string
+     secrets:
+       npm_token:
+         required: true
+
+jobs:
+  publish:
+    runs-on: self-hosted-k8s
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: .nvmrc
+          registry-url: https://registry.npmjs.org/
+
+      - name: Grant NPM Private Package Access
+        env:
+          NPM_TOKEN: ${{ secrets.npm_token }}
+        run: npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Publish
+        run: npm publish . --tag ${{ inputs.version_type }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.npm_token }}

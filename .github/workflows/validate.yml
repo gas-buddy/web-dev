@@ -1,0 +1,62 @@
+name: Code Quality Check
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: self-hosted-k8s
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: .nvmrc
+          registry-url: https://registry.npmjs.org/
+
+      - name: Grant NPM Private Package Access
+        env:
+          NPM_TOKEN: ${{secrets.npm_token}}
+        run: npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+      - name: Test
+        run: npm run ci-test
+
+  publish-alpha:
+    if: github.ref_type == 'tag' && contains(github.ref, '-alpha')
+    needs: build
+    uses: ./.github/workflows/publish.yml
+    with:
+      version_type: 'alpha'
+    secrets:
+      npm_token: ${{ secrets.npm_token }}
+
+  publish-beta:
+    if: github.ref_type == 'tag' && contains(github.ref, '-beta')
+    needs: build
+    uses: ./.github/workflows/publish.yml
+    with:
+      version_type: 'beta'
+    secrets:
+      npm_token: ${{ secrets.npm_token }}
+
+  publish-version:
+    if: github.ref_type == 'tag' && contains(github.ref, '-alpha') == false && contains(github.ref, '-beta') == false
+    needs: build
+    uses: ./.github/workflows/publish.yml
+    with:
+      version_type: 'latest'
+    secrets:
+      npm_token: ${{ secrets.npm_token }}
