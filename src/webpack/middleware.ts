@@ -1,49 +1,62 @@
+import { NextFunction, Request, Response } from 'express';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
 const WebpackMiddlewareCloseHandle = Symbol('Webpack dev middleware close function');
 
-export function webpackMiddleware(opts) {
+export function webpackMiddleware(opts: {
+  config: Function,
+  env?: String,
+}) {
   const {
     config,
     env = process.env.NODE_ENV,
   } = opts;
 
-  let wpconfig;
-  let compiler;
+  let wpconfig: webpack.Configuration;
+  let compiler: webpack.Compiler;
 
   try {
     // eslint-disable-next-line global-require, import/no-dynamic-require
     wpconfig = config(env);
     compiler = webpack(wpconfig);
   } catch (e) {
-    e.message = `Webpack config malformed: ${e.message}`;
+    (e as Error).message = `Webpack config malformed: ${(e as Error).message}`;
     throw e;
   }
 
+  // @ts-ignore
   const devMiddleware = webpackDevMiddleware(compiler, {
-    publicPath: wpconfig.output.publicPath,
+    publicPath: wpconfig!.output!.publicPath,
     stats: { colors: true },
   });
+  // @ts-ignore
   const hotMiddleware = webpackHotMiddleware(compiler, {
     dynamicPublicPath: true,
   });
 
-  const webpackMiddlewareFn = (req, res, next) => (
+  const webpackMiddlewareFn = (req: Request, res: Response, next: NextFunction) => (
     devMiddleware(req, res, () => hotMiddleware(req, res, next))
   );
+  // @ts-ignore
   webpackMiddlewareFn[WebpackMiddlewareCloseHandle] = () => devMiddleware.close();
   return webpackMiddlewareFn;
 }
 
-export function shutdownWebpackWatcher(app) {
+export function shutdownWebpackWatcher(app: {
+  _router: {
+    stack: { handle?: Function }[]
+  }
+}) {
   // Webpack dev middleware watches the filesystem and as such seems to need to
   // be explicitly shut down.
   // eslint-disable-next-line no-underscore-dangle
-  const wpmw = app._router.stack.find(m => m.handle
+  const wpmw = app._router.stack.find((m) => m.handle
     && Object.hasOwnProperty.call(m.handle, WebpackMiddlewareCloseHandle));
+
   if (wpmw) {
+    // @ts-ignore
     const fn = wpmw.handle[WebpackMiddlewareCloseHandle];
     if (fn && typeof fn === 'function') {
       fn();
