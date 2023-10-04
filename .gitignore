@@ -8,3 +8,4 @@ coverage
 .tap_output
 test_output.log
 .DS_Store
+.eslintcache
