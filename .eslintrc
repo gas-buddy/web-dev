@@ -1,3 +1,7 @@
 {
-  "extends": "gasbuddy"
+  "root": true,
+  "extends": "gasbuddy",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  }
 }

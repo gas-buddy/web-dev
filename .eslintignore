@@ -1,3 +1,5 @@
 build/
 build-static/
 coverage
+jest.config.js
+.eslintrc
