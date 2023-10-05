@@ -12,6 +12,7 @@ const routes = {
 };
 
 const Router = RouterThunk(routes);
+// @ts-ignore
 const appReducer = combineReducers({ conf: (s) => (s || {}) });
 
 const render = () => entryPoint({
