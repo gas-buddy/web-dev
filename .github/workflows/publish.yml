@@ -21,18 +21,23 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version-file: .nvmrc
-          registry-url: https://registry.npmjs.org/
+          cache: yarn
 
       - name: Grant NPM Private Package Access
+        run: |
+          npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
         env:
-          NPM_TOKEN: ${{ secrets.npm_token }}
-        run: npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
+          NPM_TOKEN: ${{secrets.npm_token}}
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          yarn config set npmScopes.gasbuddy.npmRegistryServer "https://registry.npmjs.org"
+          yarn config set npmScopes.gasbuddy.npmAlwaysAuth true
+          yarn config set npmScopes.gasbuddy.npmAuthToken $NPM_TOKEN
+          yarn install --frozen-lockfile
 
       - name: Build
-        run: npm run build
+        run: yarn build
 
       - name: Publish
         run: npm publish . --tag ${{ inputs.version_type }}
