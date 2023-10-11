@@ -40,7 +40,7 @@ jobs:
         run: yarn build
 
       - name: Test
-        run: yarn ci-test
+        run: yarn test
 
   publish-alpha:
     if: github.ref_type == 'tag' && contains(github.ref, '-alpha')
