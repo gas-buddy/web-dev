@@ -1,8 +1,10 @@
 {
-  "include": ["@types/**/*", "src/**/*", "__tests__/**/*", "__mocks__/**/*"],
+  "include": ["src/**/*"],
   "exclude": [
     "node_modules",
     "build",
+    "__tests__/**/*",
+    "__mocks__/**/*"
   ],
   "ts-node": {
     "transpileOnly": true,
@@ -15,7 +17,7 @@
     "declaration": true,                      /* Generates corresponding '.d.ts' file. */
     "sourceMap": true,                        /* Generates corresponding '.map' file. */
     "outDir": "./build",                      /* Redirect output structure to the directory. */
-    // "rootDir": "./",                       /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
+    "rootDir": "./src",                       /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
     // "removeComments": true,                /* Do not emit comments to output. */
     "incremental": true,                   /* Enable incremental compilation */
     // "importHelpers": true,                 /* Import emit helpers from 'tslib'. */
@@ -51,5 +53,6 @@
     "experimentalDecorators": true,        /* Enables experimental support for ES7 decorators. */
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
     "skipLibCheck": true,
+    "typeRoots": ["@types/**/*"],
   }
 }
