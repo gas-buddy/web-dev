@@ -6,9 +6,9 @@ if (!process.env.BROWSER_SUPPORT) {
 }
 
 // eslint-disable-next-line import/no-extraneous-dependencies
-module.exports = (env) => {
+export default function configure(env: { production: Boolean }) {
   const config = webpackConfig(env);
 
-  config.entry.client = path.resolve(__dirname, './entrypoint.js');
+  config.entry.client = path.resolve(__dirname, './entrypoint');
   return config;
-};
+}

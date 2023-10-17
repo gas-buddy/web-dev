@@ -1,10 +1,22 @@
+test_output.log
 .idea
 node_modules
-build-static
 build
-.wercker
+build-static
 coverage
 .nyc_output
+*.log
 .tap_output
-test_output.log
-.DS_Store
+
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+.node_repl_history
+
+# TypeScript incremental compilation cache
+*.tsbuildinfo
+.eslintcache

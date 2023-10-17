@@ -8,12 +8,16 @@ import TerserPlugin from 'terser-webpack-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
-export function webpackConfig(optionsOrNull) {
+export function webpackConfig(optionsOrNull: {
+  production: Boolean,
+  output?: webpack.Output,
+  miniCss?: Object,
+}) {
   const options = optionsOrNull || {};
   const isProd = process.env.NODE_ENV === 'production' || options.production;
 
   // These paths are relative to CWD, which is expected to be package root
-  const config = {
+  const config: webpack.Configuration = {
     mode: isProd ? 'production' : 'development',
     devtool: '#inline-source-map',
     optimization: {
@@ -36,6 +40,9 @@ export function webpackConfig(optionsOrNull) {
       publicPath: '/s/',
       path: path.resolve('./build-static'),
     },
+    resolve: {
+      extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    },
   };
 
   const plugins = [
@@ -47,21 +54,25 @@ export function webpackConfig(optionsOrNull) {
     plugins.unshift(new BundleAnalyzerPlugin());
   }
 
-  const cssLoaderOpts = {
-    sourceMap: true,
-    modules: {
-      localIdentName: '[name]__[local]___[hash:base64:5]',
-    },
-    importLoaders: 1,
-  };
-
   const rules = [
     {
-      test: /\.js$/,
+      test: /\.jsx?$/,
       exclude: /node_modules/,
       use: [
         {
           loader: 'babel-loader',
+          options: {
+            envName: 'webpack',
+          },
+        },
+      ],
+    },
+    {
+      test: /\.tsx?$/,
+      exclude: /node_modules/,
+      use: [
+        {
+          loader: 'ts-loader',
           options: {
             envName: 'webpack',
           },
@@ -74,7 +85,13 @@ export function webpackConfig(optionsOrNull) {
         isProd ? MiniCssExtractPlugin.loader : 'style-loader',
         {
           loader: 'css-loader',
-          options: cssLoaderOpts,
+          options: {
+            sourceMap: true,
+            modules: {
+              localIdentName: '[name]__[local]___[hash:base64:5]',
+            },
+            importLoaders: 1,
+          },
         },
         {
           loader: 'postcss-loader',
@@ -99,8 +116,10 @@ export function webpackConfig(optionsOrNull) {
   ];
 
   if (!(isProd)) {
-    config.entry.client = [].concat(config.entry.client);
-    config.entry.client.unshift('webpack-hot-middleware/client?reload=true');
+    // @ts-ignore
+    config!.entry!.client = [].concat(config!.entry?.client);
+    // @ts-ignore
+    config!.entry?.client?.unshift('webpack-hot-middleware/client?reload=true');
 
     plugins.push(
       new webpack.HotModuleReplacementPlugin(),
@@ -110,7 +129,7 @@ export function webpackConfig(optionsOrNull) {
   }
 
   if (isProd) {
-    config.optimization.minimizer = [
+    config!.optimization!.minimizer = [
       new TerserPlugin({
         cache: true,
         parallel: true,
